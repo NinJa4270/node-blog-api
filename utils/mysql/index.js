@@ -13,12 +13,14 @@ module.exports = {
     arr = Object.keys(args);
     arr.map((key, i) => {
       if (i < arr.length - 1) {
-        sql += ` ${key} = ${args[key]} and`;
+        sql += ` ${key} = ? and`;
       } else {
-        sql += ` ${key} = ${args[key]};`;
+        sql += ` ${key} = ?;`;
       }
       sqlArr.push(args[key]);
     });
+    console.log(sql)
+    console.log(sqlArr)
     let res = toFormat(await Con.sySqlConnect(sql, sqlArr))[0].count
     return res > 0 ? true :false
   },
