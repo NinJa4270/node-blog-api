@@ -1,4 +1,4 @@
-//引入模块
+// 邮箱验证码
 const nodemailer = require("nodemailer");
 const { config } = require("../../config/mailConfig");
 const redisClient = require("../../db/redis").redisClient;
