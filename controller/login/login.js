@@ -1,5 +1,4 @@
 // 登陆
-const Con = require("../../db/mysql");
 const { isExistence } = require("../../utils/mysql/index.js");
 const handleRes = require("../../utils/others/res.js");
 
