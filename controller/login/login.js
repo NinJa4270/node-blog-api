@@ -1,7 +1,8 @@
 // 登陆
 const { isExistence } = require("../../utils/mysql/index.js");
+const { toFormat } = require('../../utils/others/index')
 const handleRes = require("../../utils/others/res.js");
-
+const { sqlBaseINfo } = require('./sql/sql_login')
 const con_Login = async (req, res) => {
   let { user, password } = req.body;
   if (!user || !password) {
@@ -11,7 +12,9 @@ const con_Login = async (req, res) => {
   if (!bol) {
     res.send(handleRes("登陆失败,用户名或密码不正确", 1002));
   } else {
-    res.send(handleRes("登陆成功", 1000));
+    let data = toFormat(await sqlBaseINfo(user, password))[0];
+    console.log(data)
+    res.send(handleRes("登陆成功", 1000, data));
   }
 };
 

@@ -1,7 +1,8 @@
-const handleRes = (msg,code) => {
+const handleRes = (msg,code,data) => {
   return {
     msg,
-    code
+    code,
+    data
   } 
 };
 // 1000 成功

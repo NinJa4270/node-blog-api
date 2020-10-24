@@ -29,6 +29,7 @@ app.use(
 // 引入路由
 require('./routes/login')(app)
 require('./routes/goods')(app)
+require('./routes/system/nav')(app)
 
 app.listen(3333,()=>{
   console.log('http://localhost:3333')
