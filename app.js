@@ -10,7 +10,10 @@ app.use(cookieParser())
 app.use(require('cors')())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
- 
+
+//静态文件托管
+app.use('/static', express.static(__dirname + '/static'))
+
 const redisClient = require('./db/redis').redisClient
 const sessionStore = new RedisStore({
   client: redisClient,
