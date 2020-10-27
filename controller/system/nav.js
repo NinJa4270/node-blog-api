@@ -1,5 +1,10 @@
 const handleRes = require("../../utils/others/res.js");
-const { sqlnav, sqlDeleteNav } = require("./sql/sql_nav");
+const {
+  sqlnav,
+  sqlDeleteNav,
+  sqlAddNav,
+  sqlEditNav,
+} = require("./sql/sql_nav");
 const { toTree } = require("../../utils/others/index");
 const con_Nav = async (req, res) => {
   let { role_id, role } = req.body;
@@ -11,8 +16,13 @@ const con_Nav = async (req, res) => {
 };
 
 const con_addNav = async (req, res) => {
-  let { id } = req.body;
-  res.send(handleRes("获取成功", 1000, id));
+  try {
+    let { name, pid, path, role_id } = req.body;
+    await sqlAddNav(name, pid, path, role_id);
+    res.send(handleRes("添加成功", 1000));
+  } catch (e) {
+    res.send(handleRes("获取失败", 1009, e));
+  }
 };
 
 const con_deleteNav = async (req, res) => {
@@ -21,8 +31,18 @@ const con_deleteNav = async (req, res) => {
     await sqlDeleteNav(id);
     res.send(handleRes("删除成功", 1000));
   } catch (e) {
-    res.send(handleRes("删除失败", 1000, e));
+    res.send(handleRes("删除失败", 1009, e));
   }
 };
 
-module.exports = { con_Nav, con_addNav, con_deleteNav };
+const con_editNav = async (req, res) => {
+  let { id, name, pid, path, role_id } = req.body;
+  try {
+    await sqlEditNav(id, name, pid, path, role_id);
+    res.send(handleRes("修改成功", 1000));
+  } catch (e) {
+    res.send(handleRes("修改失败", 1009, e));
+  }
+};
+
+module.exports = { con_Nav, con_addNav, con_deleteNav, con_editNav };

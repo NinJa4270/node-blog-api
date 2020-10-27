@@ -10,4 +10,14 @@ module.exports = {
     let sqlArr = [id];
     return Con.sySqlConnect(sql, sqlArr);
   },
+  sqlAddNav: (name, pid, path, role_id) => {
+    let sql = `INSERT INTO nav (name,pid,path,role_id) VALUES (?,?,?,?)`;
+    let sqlArr = [name, pid, path, role_id];
+    return Con.sySqlConnect(sql, sqlArr);
+  },
+  sqlEditNav: (id, name, pid, path, role_id) => {
+    let sql = `UPDATE nav SET name = ?, pid = ? , path = ? , role_id = ? WHERE id = ?`;
+    let sqlArr = [name, pid, path, role_id, id];
+    return Con.sySqlConnect(sql, sqlArr);
+  },
 };
