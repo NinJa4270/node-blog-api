@@ -1,53 +1,58 @@
 const handleRes = require("../../utils/others/res.js");
-const { sqlArt } = require("./sql/sql_articleCategories");
+const {
+  sqlArt,
+  sqlEditArt,
+  sqlDeleteArt,
+  sqlAddArt,
+} = require("./sql/sql_articleCategories");
 const { paging } = require("../../utils/mysql/index");
-const con_articleCategories = async (req, res) => {
+const con_art = async (req, res) => {
   try {
     // 分页
-    console.log(111);
     let { pageNum, pageSize } = req.body;
-    let data = await paging(
-      pageNum,
-      pageSize,
-      "article_categories",
-      sqlArt
-    );
-    console.log(2222);
+    let data = await paging(pageNum, pageSize, "article_categories", sqlArt);
     res.send(handleRes("获取成功", 1000, data));
   } catch (e) {
-    console.log(e)
+    console.log(e);
     res.send(handleRes("获取失败", 1009, e));
   }
 };
 
-const con_addNav = async (req, res) => {
+const con_addArt = async (req, res) => {
+  console.log(req.body)
   try {
-    let { name, pid, path, role_id } = req.body;
-    await sqlAddNav(name, pid, path, role_id);
-    res.send(handleRes("添加成功", 1000));
+    let { name } = req.body;
+    if (name) {
+      await sqlAddArt(name);
+      res.send(handleRes("添加成功", 1000));
+    }
   } catch (e) {
     res.send(handleRes("获取失败", 1009, e));
   }
 };
 
-const con_deleteNav = async (req, res) => {
-  let { id } = req.body;
+const con_deleteArt = async (req, res) => {
   try {
-    await sqlDeleteNav(id);
-    res.send(handleRes("删除成功", 1000));
+    let { id } = req.body;
+    if (id) {
+      await sqlDeleteArt(id);
+      res.send(handleRes("删除成功", 1000));
+    }
   } catch (e) {
     res.send(handleRes("删除失败", 1009, e));
   }
 };
 
-const con_editNav = async (req, res) => {
-  let { id, name, pid, path, role_id } = req.body;
+const con_editArt = async (req, res) => {
   try {
-    await sqlEditNav(id, name, pid, path, role_id);
-    res.send(handleRes("修改成功", 1000));
+    let { id, name } = req.body;
+    if (id && name) {
+      await sqlEditArt(id, name);
+      res.send(handleRes("修改成功", 1000));
+    }
   } catch (e) {
     res.send(handleRes("修改失败", 1009, e));
   }
 };
 
-module.exports = { con_articleCategories };
+module.exports = { con_art, con_addArt, con_deleteArt, con_editArt };
