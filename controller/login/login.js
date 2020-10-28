@@ -1,20 +1,24 @@
 // 登陆
 const { isExistence } = require("../../utils/mysql/index.js");
-const { toFormat } = require('../../utils/others/index')
+const JWT = require("jsonwebtoken");
 const handleRes = require("../../utils/others/res.js");
-const { sqlBaseINfo } = require('./sql/sql_login')
+const { sqlBaseINfo, comparePassword } = require("./sql/sql_login");
 const con_Login = async (req, res) => {
   let { user, password } = req.body;
   if (!user || !password) {
     return res.send(handleRes("登陆失败,请校验信息", 1001));
   }
-  let bol = await isExistence("user", { user, password });
+  let bol = await isExistence("user", { user });
   if (!bol) {
-    res.send(handleRes("登陆失败,用户名或密码不正确", 1002));
+    res.send(handleRes("登陆失败,用户名不正确", 1002));
   } else {
-    let data = toFormat(await sqlBaseINfo(user, password))[0];
-    console.log(data)
-    res.send(handleRes("登陆成功", 1000, data));
+    let isValid = await comparePassword(user, password);
+    if (isValid) {
+      let data = await sqlBaseINfo(user, password);
+      res.send(handleRes("登陆成功", 1000, data));
+    }else{
+      res.send(handleRes("登陆失败,密码不正确", 1002));
+    }
   }
 };
 

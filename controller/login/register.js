@@ -17,7 +17,8 @@ const con_register = async (req, res) => {
       if (bol) {
         res.send(handleRes("注册失败,用户名已存在", 1003));
       } else {
-        await sqlRegister(user,password)
+        const newPassword = require('bcrypt').hashSync(password, 10)
+        await sqlRegister(user,newPassword)
         res.send(handleRes("注册成功", 1000));
       }
     }
