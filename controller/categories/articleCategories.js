@@ -1,12 +1,22 @@
 const handleRes = require("../../utils/others/res.js");
 const { sqlArt } = require("./sql/sql_articleCategories");
-
+const { paging } = require("../../utils/mysql/index");
 const con_articleCategories = async (req, res) => {
-  try{
-    let data = await sqlArt()
+  try {
+    // 分页
+    console.log(111);
+    let { pageNum, pageSize } = req.body;
+    let data = await paging(
+      pageNum,
+      pageSize,
+      "article_categories",
+      sqlArt
+    );
+    console.log(2222);
     res.send(handleRes("获取成功", 1000, data));
-  }catch(e){
-    res.send(handleRes("获取成功", 1000, e));
+  } catch (e) {
+    console.log(e)
+    res.send(handleRes("获取失败", 1009, e));
   }
 };
 

@@ -1,7 +1,8 @@
 const Con = require("../../../db/mysql");
+
 module.exports = {
-  sqlArt: () => {
-    let sql = `SELECT * FROM article_categories;`;
+  sqlArt: (start, pageSize) => {
+    let sql = `SELECT * FROM article_categories LIMIT ${start} , ${pageSize};`;
     let sqlArr = [];
     return Con.sySqlConnect(sql, sqlArr);
   },
