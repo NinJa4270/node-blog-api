@@ -1,8 +1,10 @@
 // 登陆
 const { isExistence } = require("../../utils/mysql/index.js");
-const JWT = require("jsonwebtoken");
 const handleRes = require("../../utils/others/res.js");
 const { sqlBaseINfo, comparePassword } = require("./sql/sql_login");
+const JWT = require("jsonwebtoken");
+const { tokenConfig } = require("../../config/token");
+
 const con_Login = async (req, res) => {
   let { user, password } = req.body;
   if (!user || !password) {
@@ -15,8 +17,16 @@ const con_Login = async (req, res) => {
     let isValid = await comparePassword(user, password);
     if (isValid) {
       let data = await sqlBaseINfo(user, password);
+      // 生成token
+      data.token = JWT.sign(
+        {
+          username: user,
+        },
+        tokenConfig.secretOrPublicKey,
+        tokenConfig.options
+      );
       res.send(handleRes("登陆成功", 1000, data));
-    }else{
+    } else {
       res.send(handleRes("登陆失败,密码不正确", 1002));
     }
   }
