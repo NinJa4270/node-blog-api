@@ -20,7 +20,7 @@ const con_Login = async (req, res) => {
       // 生成token
       data.token = JWT.sign(
         {
-          username: user,
+          user,
         },
         tokenConfig.secretOrPublicKey,
         tokenConfig.options

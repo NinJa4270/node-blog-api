@@ -7,14 +7,14 @@ module.exports = (app) => {
     con_deleteNav,
     con_editNav,
   } = require("../../controller/system/nav");
-
+  const { verify } = require("../../controller/jwt/jwt");
   router.post("/nav", con_Nav);
   // 新增
-  router.post("/addNav", con_addNav);
+  router.post("/addNav", verify, con_addNav);
   // 删除
-  router.post("/deleteNav", con_deleteNav);
+  router.post("/deleteNav", verify, con_deleteNav);
   // 修改
-  router.post("/editNav", con_editNav);
+  router.post("/editNav", verify, con_editNav);
 
   app.use("/api", router);
 };
