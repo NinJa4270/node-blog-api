@@ -1,9 +1,9 @@
 // 邮箱验证码
 const nodemailer = require("nodemailer");
 const { config } = require("../../config/mailConfig");
-const redisClient = require("../../db/redis").redisClient;
 const { isExistence } = require("../../utils/mysql/index.js");
 const handleRes = require("../../utils/others/res");
+const { setItem } = require("../../utils/redis/index");
 
 const transporter = nodemailer.createTransport(config);
 
@@ -35,17 +35,8 @@ const getcode = async (req, res) => {
     console.log(`Message: ${info.messageId}`);
     console.log(`sent: ${info.response}`);
   });
-
   setItem(user, code, "1800");
   res.send(handleRes("验证码已发送至您的邮箱,有效期30分钟", 1000));
-};
-
-const setItem = (key, value, exprires) => {
-  redisClient.set(key, value);
-  //设置过期
-  if (exprires) {
-    redisClient.expire(key, exprires);
-  }
 };
 
 module.exports = { getcode };

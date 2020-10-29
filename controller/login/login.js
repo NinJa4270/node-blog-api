@@ -4,6 +4,7 @@ const handleRes = require("../../utils/others/res.js");
 const { sqlBaseINfo, comparePassword } = require("./sql/sql_login");
 const JWT = require("jsonwebtoken");
 const { tokenConfig } = require("../../config/token");
+const { setItem, getItem } = require("../../utils/redis/index");
 
 const con_Login = async (req, res) => {
   let { user, password } = req.body;
@@ -16,15 +17,24 @@ const con_Login = async (req, res) => {
   } else {
     let isValid = await comparePassword(user, password);
     if (isValid) {
+      let token = "";
+      let oldToken = (await getItem(`${user}_token`)) || "";
+      if (oldToken) {
+        token = oldToken;
+      } else {
+        // 生成新token
+        token = JWT.sign(
+          {
+            user,
+          },
+          tokenConfig.secretOrPublicKey,
+          tokenConfig.options
+        );
+      }
       let data = await sqlBaseINfo(user, password);
-      // 生成token
-      data.token = JWT.sign(
-        {
-          user,
-        },
-        tokenConfig.secretOrPublicKey,
-        tokenConfig.options
-      );
+      data.token = token;
+      // token存入redis 保存登陆状态
+      setItem(`${user}_token`, token, "86400");
       res.send(handleRes("登陆成功", 1000, data));
     } else {
       res.send(handleRes("登陆失败,密码不正确", 1002));
