@@ -16,8 +16,7 @@ const verify = async (req, res, next) => {
     }
     const { user } = JWT.verify(
       token,
-      tokenConfig.secretOrPublicKey,
-      tokenConfig.options
+      tokenConfig.secretOrPublicKey
     );
     if (user !== username) {
       return res.send(handleRes("TOKEN验证失败", 1009, e));
@@ -30,6 +29,7 @@ const verify = async (req, res, next) => {
       }
     }
   } catch (e) {
+    console.log(e)
     res.send(handleRes("服务器错误", 1009, e));
   }
 };

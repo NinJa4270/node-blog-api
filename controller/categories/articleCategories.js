@@ -19,7 +19,6 @@ const con_art = async (req, res) => {
 };
 
 const con_addArt = async (req, res) => {
-  console.log(req.body)
   try {
     let { name } = req.body;
     if (name) {

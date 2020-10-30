@@ -9,7 +9,7 @@ module.exports = (app) => {
     con_editArt,
   } = require("../controller/categories/articleCategories");
 
-  router.post("/articleCategories", verify, con_art);
+  router.post("/artList", verify, con_art);
   router.post("/addArt", verify, con_addArt);
   router.post("/deleteArt", verify, con_deleteArt);
   router.post("/editArt", verify, con_editArt);
