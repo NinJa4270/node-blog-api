@@ -11,14 +11,22 @@ module.exports = {
     let sqlArr = [id];
     return Con.sySqlConnect(sql, sqlArr);
   },
-  sqlAddUser: (name) => {
-    let sql = `INSERT INTO user (name) VALUES (?)`;
-    let sqlArr = [name];
+  sqlAddUser: (user, password, role_id) => {
+    let sql = `INSERT INTO user (user,password,role_id) VALUES (?,?,?)`;
+    let sqlArr = [user, password, role_id];
     return Con.sySqlConnect(sql, sqlArr);
   },
-  sqlEditUser: (id, name) => {
-    let sql = `UPDATE user SET name = ? WHERE id = ?`;
-    let sqlArr = [name, id];
+  sqlEditUser: (id, user, role_id, password) => {
+    let sql,
+      sqlArr = [];
+    if (password) {
+      sql = `UPDATE user SET user = ?,password = ?,role_id=? WHERE id = ?`;
+      sqlArr = [user, password, role_id, id];
+    } else {
+      sql = `UPDATE user SET user = ?,role_id=? WHERE id = ?`;
+      sqlArr = [user, role_id, id];
+    }
+    console.log(sql, sqlArr);
     return Con.sySqlConnect(sql, sqlArr);
   },
 };
