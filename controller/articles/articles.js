@@ -1,5 +1,9 @@
 const handleRes = require("../../utils/others/res.js");
-const { sqlAddArticle, sqlArticle } = require("./sql/sql_articles");
+const {
+  sqlAddArticle,
+  sqlArticle,
+  sqlDeleteArticle,
+} = require("./sql/sql_articles");
 const { paging } = require("../../utils/mysql/index");
 
 const con_articleList = async (req, res) => {
@@ -30,7 +34,17 @@ const con_addArticle = async (req, res) => {
   }
 };
 
-const con_deleteArticle = async (req, res) => {};
+const con_deleteArticle = async (req, res) => {
+  try {
+    let { id } = req.body;
+    if (id) {
+      await sqlDeleteArticle(id);
+      res.send(handleRes("删除成功", 1000));
+    }
+  } catch (e) {
+    res.send(handleRes("删除失败", 1009, e));
+  }
+};
 
 const con_editArticle = async (req, res) => {};
 

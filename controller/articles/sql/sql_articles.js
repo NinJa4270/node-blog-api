@@ -6,17 +6,17 @@ module.exports = {
     let sqlArr = [];
     return Con.sySqlConnect(sql, sqlArr);
   },
-  // sqlDeleteArt: (id) => {
-  //   let sql = `DELETE FROM article_categories WHERE id = ?;`;
-  //   let sqlArr = [id];
-  //   return Con.sySqlConnect(sql, sqlArr);
-  // },
+  sqlDeleteArticle: (id) => {
+    let sql = `DELETE FROM articles WHERE id = ?;`;
+    let sqlArr = [id];
+    return Con.sySqlConnect(sql, sqlArr);
+  },
   sqlAddArticle: (category_id, content, tags, title) => {
     let sql = `INSERT INTO articles (category_id, content, tags, title) VALUES (?,?,?,?)`;
     let sqlArr = [category_id, content, tags, title];
     return Con.sySqlConnect(sql, sqlArr);
   },
-  // sqlEditArt: (id, name) => {
+  // sqlEditArticle: (id, name) => {
   //   let sql = `UPDATE article_categories SET name = ? WHERE id = ?`;
   //   let sqlArr = [name, id];
   //   return Con.sySqlConnect(sql, sqlArr);
