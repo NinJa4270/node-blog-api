@@ -26,7 +26,7 @@ const con_addArt = async (req, res) => {
       res.send(handleRes("添加成功", 1000));
     }
   } catch (e) {
-    res.send(handleRes("获取失败", 1009, e));
+    res.send(handleRes("添加失败", 1009, e));
   }
 };
 

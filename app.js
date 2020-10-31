@@ -35,6 +35,7 @@ require('./routes/goods')(app)
 require('./routes/system/nav')(app)
 require('./routes/categories')(app)
 require('./routes/users')(app)
+require('./routes/articles')(app)
 
 app.listen(3333,()=>{
   console.log('http://localhost:3333')
