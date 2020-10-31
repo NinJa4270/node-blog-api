@@ -7,9 +7,11 @@ module.exports = (app) => {
     con_addArticle,
     con_deleteArticle,
     con_editArticle,
+    con_article
   } = require("../controller/articles/articles");
 
   router.post("/articleList", verify, con_articleList);
+  router.post("/article", verify, con_article);
   router.post("/addArticle", verify, con_addArticle);
   router.post("/deleteArticle", verify, con_deleteArticle);
   router.post("/editArticle", verify, con_editArticle);
