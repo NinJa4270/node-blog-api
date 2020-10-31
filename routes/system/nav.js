@@ -16,5 +16,5 @@ module.exports = (app) => {
   // 修改
   router.post("/editNav", verify, con_editNav);
 
-  app.use("/api", router);
+  app.use("/api/admin", router);
 };

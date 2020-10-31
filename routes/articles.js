@@ -16,5 +16,5 @@ module.exports = (app) => {
   router.post("/deleteArticle", verify, con_deleteArticle);
   router.post("/editArticle", verify, con_editArticle);
 
-  app.use("/api", router);
+  app.use("/api/admin", router);
 };

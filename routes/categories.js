@@ -14,5 +14,5 @@ module.exports = (app) => {
   router.post("/deleteArt", verify, con_deleteArt);
   router.post("/editArt", verify, con_editArt);
 
-  app.use("/api", router);
+  app.use("/api/admin", router);
 };

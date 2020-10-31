@@ -14,5 +14,5 @@ module.exports = (app) => {
   router.post("/deleteUser", verify, con_deleteUser);
   router.post("/editUser", verify, con_editUser);
 
-  app.use("/api", router);
+  app.use("/api/admin", router);
 };
